@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUP-CEA Parking Garage</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PUP-CEA Parking Garage</h1>
+            <p class="algorithm-note">Using Stack Data Structure (LIFO - Last In, First Out)</p>
+        </header>
+
+        <main>
+            <div class="panels">
+                <!-- Left Panel - Operations -->
+                <section class="operations-panel">
+                    <h2>Parking Operations</h2>
+                    
+                    <div class="capacity-indicator">
+                        <div class="progress-bar">
+                            <div class="progress" id="capacityBar"></div>
+                        </div>
+                        <p id="capacityLabel">Available Spaces: 10/10</p>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="plateNumber">License Plate:</label>
+                        <input type="text" id="plateNumber" maxlength="10" placeholder="Enter plate number">
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn success" id="parkButton">Park Car</button>
+                        <button class="btn danger" id="removeButton">Remove Car</button>
+                    </div>
+                </section>
+
+                <!-- Right Panel - Status -->
+                <section class="status-panel">
+                    <h2>Current Status</h2>
+                    
+                    <div class="statistics">
+                        <p id="totalArrivals">Total Arrivals: 0</p>
+                        <p id="totalDepartures">Total Departures: 0</p>
+                        <p id="totalMovements">Total Movements: 0</p>
+                    </div>
+
+                    <div class="parked-cars">
+                        <h3>Currently Parked Cars</h3>
+                        <div class="cars-list" id="parkedCarsList">
+                            <p class="empty-message">No cars currently parked</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for messages -->
+    <div class="modal" id="messageModal">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <button class="btn primary" id="modalClose">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
