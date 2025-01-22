@@ -1,3 +1,3 @@
 # ParkStacks
 
-Early stack-based parking garage UI.
+Mid-iteration stack parking refinements.

@@ -18,8 +18,8 @@ class GarageSystem {
         this.parkingStack.push(plateNumber);
         this.carCounters[plateNumber] = (this.carCounters[plateNumber] || 0) + 1;
         this.totalCounters.arrivalCount++;
-        return { 
-            success: true, 
+        return {
+            success: true,
             message: `Car with plate number ${plateNumber} has arrived and parked.`
         };
     }
@@ -30,8 +30,8 @@ class GarageSystem {
         }
 
         if (!this.parkingStack.includes(plateNumber)) {
-            return { 
-                success: false, 
+            return {
+                success: false,
                 message: `Error: Car with plate number ${plateNumber} is not in the parking garage.`
             };
         }
@@ -62,14 +62,14 @@ class GarageSystem {
         if (found) {
             this.totalCounters.departureCount++;
             this.carCounters[plateNumber] = (this.carCounters[plateNumber] || 0) + 1;
-            return { 
-                success: true, 
+            return {
+                success: true,
                 message: `Car with plate number ${plateNumber} has departed.`
             };
         }
 
-        return { 
-            success: false, 
+        return {
+            success: false,
             message: "Error: Something went wrong during departure."
         };
     }
@@ -115,7 +115,7 @@ class ParkingGarageUI {
         // Add visualization elements
         this.garageStack = document.getElementById('garageStack');
         this.initializeGarageVisualization();
-        
+
         // Initialize theme
         this.initializeTheme();
     }
@@ -134,37 +134,37 @@ class ParkingGarageUI {
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const numbers = '0123456789';
         let plate = '';
-        
+
         // Generate 3 random letters
         for (let i = 0; i < 3; i++) {
             plate += letters.charAt(Math.floor(Math.random() * letters.length));
         }
-        
+
         plate += ' '; // Add space
-        
+
         // Generate 3 random numbers
         for (let i = 0; i < 3; i++) {
             plate += numbers.charAt(Math.floor(Math.random() * numbers.length));
         }
-        
+
         return plate;
     }
 
     async animateCarEntry(plateNumber, spotIndex) {
         const spot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - spotIndex];
-        
+
         // Set up the spot with the plate number but keep it invisible
         spot.classList.add('occupied');
         spot.textContent = plateNumber;
         spot.style.opacity = '0';
-        
+
         // Small delay to ensure styles are applied
         await new Promise(resolve => setTimeout(resolve, 50));
-        
+
         // Make visible and start animation
         spot.style.opacity = '1';
         spot.classList.add('entering');
-        
+
         // Wait for animation to complete
         return new Promise(resolve => {
             spot.addEventListener('animationend', () => {
@@ -177,7 +177,7 @@ class ParkingGarageUI {
     async animateCarExit(spotIndex) {
         const spot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - spotIndex];
         spot.classList.add('exiting');
-        
+
         return new Promise(resolve => {
             spot.addEventListener('animationend', () => {
                 spot.classList.remove('occupied', 'exiting');
@@ -190,7 +190,7 @@ class ParkingGarageUI {
     async animateCarMove(fromIndex, toIndex, isExiting = false) {
         const spot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - fromIndex];
         const plateNumber = spot.textContent;
-        
+
         // Move car up to gate
         spot.classList.add('moving', 'moving-up');
         await new Promise(resolve => {
@@ -198,17 +198,17 @@ class ParkingGarageUI {
                 resolve();
             }, { once: true });
         });
-        
+
         // Clear original spot
         spot.classList.remove('occupied', 'moving', 'moving-up');
         spot.textContent = '';
-        
+
         if (!isExiting) {
             // Move to new position
             const newSpot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - toIndex];
             newSpot.classList.add('occupied', 'moving', 'moving-down');
             newSpot.textContent = plateNumber;
-            
+
             await new Promise(resolve => {
                 newSpot.addEventListener('animationend', () => {
                     newSpot.classList.remove('moving', 'moving-down');
@@ -236,7 +236,7 @@ class ParkingGarageUI {
     toggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
+
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         this.updateThemeIcon(newTheme);
@@ -249,10 +249,10 @@ class ParkingGarageUI {
             this.plateInput.value = this.generateRandomPlate();
             this.clearNotice();
         });
-        
+
         // Theme toggle
         this.themeToggle.addEventListener('click', () => this.toggleTheme());
-        
+
         // Input validation
         this.plateInput.addEventListener('input', (e) => {
             e.target.value = e.target.value.replace(/[^a-zA-Z0-9 ]/g, '').toUpperCase();
@@ -288,15 +288,15 @@ class ParkingGarageUI {
         if (status.parkedCars.length) {
             // Create array of cars in reverse order (last in at the top)
             const reversedCars = [...status.parkedCars].reverse();
-            
+
             reversedCars.forEach((plate, index) => {
                 const listItem = document.createElement('div');
                 listItem.className = 'car-list-item';
-                
+
                 // Car number with position (counting from top)
                 const carInfo = document.createElement('span');
                 carInfo.textContent = `${index + 1}. ${plate}`;
-                
+
                 // Remove button
                 const removeBtn = document.createElement('button');
                 removeBtn.className = 'car-remove-btn';
@@ -307,7 +307,7 @@ class ParkingGarageUI {
                         this.handleRemoveCar();
                     }
                 };
-                
+
                 listItem.appendChild(carInfo);
                 listItem.appendChild(removeBtn);
                 this.parkedCarsList.appendChild(listItem);
@@ -324,7 +324,7 @@ class ParkingGarageUI {
         for (let i = 0; i < this.garage.MAX_CAPACITY; i++) {
             const spot = spots[this.garage.MAX_CAPACITY - 1 - i];
             const car = this.garage.parkingStack[i];
-            
+
             if (car) {
                 spot.classList.add('occupied');
                 spot.textContent = car;
@@ -337,7 +337,7 @@ class ParkingGarageUI {
 
     async handleParkCar() {
         if (this.isAnimating) return;
-        
+
         const plateNumber = this.plateInput.value.trim();
         if (!plateNumber) {
             this.showNotice('Please enter a license plate number.', true);
@@ -346,21 +346,21 @@ class ParkingGarageUI {
 
         this.isAnimating = true;
         const result = this.garage.handleArrival(plateNumber);
-        
+
         if (result.success) {
             // First update the internal state
             this.updateUI();
-            
+
             // Then animate the car entry
             await this.animateCarEntry(plateNumber, this.garage.parkingStack.length - 1);
-            
+
             // Show success message after animation completes
             this.showNotice(result.message, !result.success);
         } else {
             // Show error message immediately if parking failed
             this.showNotice(result.message, !result.success);
         }
-        
+
         this.plateInput.value = '';
         this.isAnimating = false;
         this.updateExplanationPane(`Car with plate number ${plateNumber} parked using LIFO (Last In, First Out) strategy.`);
@@ -368,7 +368,7 @@ class ParkingGarageUI {
 
     async handleRemoveCar() {
         if (this.isAnimating) return;
-        
+
         const plateNumber = this.plateInput.value.trim();
         if (!plateNumber) {
             this.showNotice('Please enter a license plate number.', true);
@@ -377,7 +377,7 @@ class ParkingGarageUI {
 
         this.isAnimating = true;
         const targetIndex = this.garage.parkingStack.indexOf(plateNumber);
-        
+
         if (targetIndex === -1) {
             this.showNotice(`Error: Car with plate number ${plateNumber} is not in the parking garage.`, true);
             this.isAnimating = false;
@@ -404,7 +404,7 @@ class ParkingGarageUI {
             const spot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - newPosition];
             spot.classList.add('occupied', 'entering');
             spot.textContent = carsToMove[i];
-            
+
             await new Promise(resolve => {
                 spot.addEventListener('animationend', () => {
                     spot.classList.remove('entering');

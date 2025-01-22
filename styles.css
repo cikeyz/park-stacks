@@ -21,24 +21,24 @@ body {
 
 /* Header styles */
 header {
-    background: var(--stack-gradient);
+    background: var(--header-gradient); /* Gradient header */
     padding: 2rem;
     color: white;
     text-align: center;
     border-radius: 10px;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md); /* Modern shadow */
     position: relative;
 }
 
 h1 {
     color: white;
     margin-bottom: 0.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: var(--text-shadow); /* Text shadow for depth */
 }
 
 .algorithm-note {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.15); /* Slightly translucent background */
     padding: 0.5rem 1rem;
     border-radius: 5px;
     display: inline-block;
@@ -60,19 +60,19 @@ h1 {
     background: var(--panel-bg);
     border-radius: 10px;
     padding: 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm); /* Subtle shadow */
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h2 {
-    color: var(--stack-theme);
+    color: var(--primary-color); /* Using primary color for headings */
     margin-bottom: 1.5rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem; /* Slightly larger heading */
 }
 
 h3 {
-    color: var(--stack-theme);
+    color: var(--primary-color);
     margin-bottom: 1rem;
     font-size: 1.2rem;
 }
@@ -89,13 +89,14 @@ h3 {
     border-radius: 15px;
     overflow: hidden;
     margin-bottom: 0.5rem;
+    box-shadow: var(--shadow-inner); /* Inner shadow for depth */
 }
 
 .progress {
-    background: var(--stack-theme);
+    background: var(--accent-color); /* Accent color for progress */
     height: 100%;
     width: 0%;
-    transition: width 0.3s ease;
+    transition: width 0.5s ease-out; /* Smoother transition */
 }
 
 /* Input section */
@@ -107,27 +108,30 @@ label {
     display: block;
     margin-bottom: 0.5rem;
     color: var(--label-color);
+    font-weight: 500; /* Slightly bolder label */
 }
 
 input {
     width: 100%;
-    padding: 0.8rem;
+    padding: 0.9rem 1rem; /* Slightly larger input */
     border: 2px solid var(--border-color);
-    border-radius: 5px;
+    border-radius: 7px; /* Slightly rounded input */
     font-size: 1rem;
-    transition: border-color 0.3s;
-    background: var(--panel-bg);
+    transition: border-color 0.3s, box-shadow 0.3s; /* Transition for focus */
+    background: var(--input-bg); /* Input background */
     color: var(--text-color);
+    box-shadow: var(--shadow-inner); /* Inner shadow for input */
 }
 
 input:focus {
     outline: none;
-    border-color: #1a73e8;
+    border-color: var(--accent-color); /* Accent color on focus */
+    box-shadow: 0 0 0 2px var(--accent-shadow), var(--shadow-inner); /* Focus shadow effect */
 }
 
 input::placeholder {
-    color: var(--text-color);
-    opacity: 0.7;
+    color: var(--placeholder-color); /* Placeholder color */
+    opacity: 1;
 }
 
 /* Button styles */
@@ -138,16 +142,24 @@ input::placeholder {
 }
 
 .btn {
-    padding: 0.8rem 1.5rem;
+    padding: 1rem 1.5rem; /* Larger buttons */
     border: none;
-    border-radius: 5px;
+    border-radius: 7px; /* Rounded buttons */
     font-size: 1rem;
     cursor: pointer;
-    transition: transform 0.1s, opacity 0.2s;
+    transition: transform 0.1s, opacity 0.2s, box-shadow 0.3s; /* Shadow transition */
+    box-shadow: var(--shadow-sm); /* Button shadow */
+    font-weight: 500;
+}
+
+.btn:hover {
+    box-shadow: var(--shadow-md); /* Enhanced shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
 .btn:active {
     transform: scale(0.98);
+    box-shadow: var(--shadow-sm-inset); /* Inset shadow on active */
 }
 
 .btn.success {
@@ -161,85 +173,100 @@ input::placeholder {
 }
 
 .btn.primary {
-    background: var(--stack-theme);
+    background: var(--accent-color); /* Primary buttons use accent color */
     color: white;
 }
 
 /* Statistics section */
 .statistics {
     background: var(--bg-color);
-    padding: 1rem;
-    border-radius: 5px;
+    padding: 1.5rem; /* More padding in statistics */
+    border-radius: 7px;
     margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm-inset); /* Inset shadow for statistics box */
 }
 
 .statistics p {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.7rem;
+    font-weight: 500;
 }
 
 /* Parked cars list */
 .cars-list {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.7rem;
 }
 
 .car-list-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem;
+    padding: 0.8rem 1rem; /* Padding in list items */
     border-bottom: 1px solid var(--border-color);
-    background: var(--panel-bg);
-    border-radius: 4px;
+    background: var(--list-item-bg); /* List item background */
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Hover transition */
+}
+
+.car-list-item:last-child {
+    border-bottom: none; /* No border on the last item */
 }
 
 .car-list-item:hover {
-    background: var(--hover-bg);
+    background: var(--list-item-hover-bg); /* Darker hover background */
+    transform: scale(1.02); /* Scale up slightly on hover */
+    box-shadow: var(--shadow-md); /* Shadow on list item hover */
 }
 
 .car-remove-btn {
-    padding: 0.3rem 0.6rem;
+    padding: 0.5rem 0.8rem;
     background: var(--secondary-color);
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: all 0.2s ease;
+    transition: all 0.2s ease, box-shadow 0.3s, transform 0.2s;
+    box-shadow: var(--shadow-sm); /* Shadow on remove button */
 }
 
 .car-remove-btn:hover {
     background: #c0392b;
-    transform: scale(1.05);
+    transform: translateY(-2px); /* Lift on hover */
+    box-shadow: var(--shadow-md); /* Enhanced shadow on hover */
 }
 
 .car-remove-btn:active {
     transform: scale(0.95);
+    box-shadow: var(--shadow-sm-inset); /* Inset shadow on active */
 }
 
 .empty-message {
-    color: #666;
+    color: var(--placeholder-color);
     text-align: center;
     font-style: italic;
+    padding: 1rem;
 }
 
 /* Notice Pane styles */
 .notice-pane {
     margin-top: 1rem;
     padding: 1rem;
-    border-radius: 5px;
+    border-radius: 7px;
     background: var(--bg-color);
     min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: var(--shadow-sm-inset); /* Inset shadow for notice pane */
 }
 
 .notice-message {
     margin: 0;
     text-align: center;
     transition: color 0.3s ease;
+    font-weight: 500;
 }
 
 .notice-message.success {
@@ -260,78 +287,131 @@ input::placeholder {
     background: var(--panel-bg);
     border-radius: 10px;
     padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm); /* Subtle shadow */
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .garage-container {
     position: relative;
-    min-height: 500px;
-    border: 2px solid var(--stack-theme);
-    border-radius: 10px;
+    min-height: 600px; /* Increased height */
+    border: 2px solid var(--primary-color); /* Primary color border */
+    border-radius: 12px; /* More rounded garage */
     margin: 0 0 1rem 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: var(--garage-bg); /* Garage background */
+    overflow: hidden; /* Clip rounded corners */
+    box-shadow: var(--shadow-md); /* Deeper shadow for garage */
 }
 
 .entrance-exit {
-    background: var(--stack-gradient);
+    background: var(--header-gradient); /* Match header gradient */
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0 0 5px 5px;
+    padding: 1rem 1.5rem; /* More padding for entrance */
+    border-radius: 0 0 10px 10px; /* Rounded bottom */
     font-weight: bold;
     position: absolute;
     top: -1px;
     z-index: 2;
-    width: 80%;
+    width: 100%; /* Full width entrance */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: var(--shadow-sm); /* Shadow for entrance */
+}
+
+.entrance-text {
+    flex-grow: 1; /* Ensure text centers properly */
     text-align: center;
 }
 
+.gate {
+    height: 20px;
+    width: 30px;
+    background-color: #666;
+    border-radius: 3px 3px 0 0;
+    box-shadow: var(--shadow-inner); /* Inner shadow for gate */
+}
+
 .garage-stack {
-    width: 80%;
+    width: 90%; /* Stack width within garage */
     height: 100%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 4rem 1rem 1rem;
+    padding: 4rem 1rem 2rem; /* More bottom padding */
 }
 
 .parking-spot {
-    background: var(--spot-bg);
+    background: var(--spot-empty-bg); /* Empty spot background */
     border: 2px dashed var(--spot-border);
-    border-radius: 5px;
-    height: 60px;
+    border-radius: 8px;
+    height: 100px; /* Increased height for car icon */
     width: 100%;
     position: relative;
     transition: background-color 0.3s ease, border 0.3s ease;
+    overflow: hidden; /* Clip car icon corners */
+    box-shadow: var(--shadow-inner); /* Inner shadow for spot */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center plate number text */
+    color: var(--placeholder-color); /* Color for plate number text */
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-shadow: var(--text-shadow-light); /* Light text shadow */
+}
+
+.parking-spot::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: contain; /* Contain the car image */
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.8; /* Slightly transparent car icon */
+    transition: opacity 0.3s ease; /* Transition for car icon opacity */
 }
 
 .parking-spot.occupied {
-    background: var(--stack-theme);
+    background: var(--spot-occupied-bg); /* Occupied spot background */
     border: none;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+    box-shadow: none; /* No inner shadow when occupied */
 }
 
+.parking-spot.occupied::before {
+    content: '';
+    opacity: 1; /* Full opacity for occupied car */
+    background-image: url('car-occupied.svg'); /* Path to occupied car SVG */
+}
+
+.parking-spot:not(.occupied)::before {
+    opacity: 0.3; /* Low opacity for empty car placeholder */
+    background-image: url('car-empty.svg'); /* Path to empty car SVG placeholder */
+}
+
+
 .parking-spot.entering {
-    animation: enterFromGate 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: enterFromGate 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Softer ease and forwards */
 }
 
 .parking-spot.exiting {
-    animation: exitThroughGate 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: exitThroughGate 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Softer ease and forwards */
 }
 
 .parking-spot.moving-up {
-    animation: moveUpToGate 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: moveUpToGate 1.0s ease-in-out forwards; /* Smoother ease-in-out */
 }
 
 .parking-spot.moving-down {
-    animation: moveDownFromGate 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: moveDownFromGate 1.0s ease-in-out forwards; /* Smoother ease-in-out */
 }
 
 .parking-spot.moving {
@@ -345,47 +425,56 @@ input::placeholder {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 4rem 0.5rem;
-    color: var(--stack-theme);
+    padding: 4rem 0.5rem 2rem; /* Adjusted bottom padding to match garage stack */
+    color: var(--primary-color); /* Primary color labels */
     font-weight: bold;
     text-align: right;
 }
 
 .stack-labels span {
-    background: var(--legend-bg);
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: var(--panel-bg);
+    padding: 0.7rem 1.2rem; /* Padding in labels */
+    border-radius: 7px;
+    box-shadow: var(--shadow-sm); /* Label shadow */
     border: 1px solid var(--border-color);
     color: var(--text-color);
+    font-weight: 500;
+    transition: box-shadow 0.3s, transform 0.3s; /* Label hover transition */
 }
+
+.stack-labels span:hover {
+    box-shadow: var(--shadow-md); /* Enhanced shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
 
 .legend {
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin-top: 1rem;
+    gap: 2.5rem; /* Wider gap in legend */
+    margin-top: 1.5rem;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.7rem;
 }
 
 .legend-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 3px;
+    width: 25px; /* Larger legend colors */
+    height: 25px;
+    border-radius: 5px; /* Rounded legend colors */
+    box-shadow: var(--shadow-sm); /* Legend color shadow */
 }
 
 .legend-color.empty {
-    background: var(--spot-bg);
+    background: var(--spot-empty-bg);
     border: 2px dashed var(--spot-border);
 }
 
 .legend-color.occupied {
-    background: var(--stack-theme);
+    background: var(--spot-occupied-bg);
 }
 
 .legend-color.moving {
@@ -394,15 +483,14 @@ input::placeholder {
 
 /* Animation keyframes */
 @keyframes enterFromGate {
-    0% { 
-        transform: translateY(-100%);
+    0% {
+        transform: translateY(-120%); /* Start further above */
         opacity: 0;
     }
-    30% { 
-        transform: translateY(-100%);
+    50% {
         opacity: 1;
     }
-    100% { 
+    100% {
         transform: translateY(0);
         opacity: 1;
     }
@@ -413,12 +501,11 @@ input::placeholder {
         transform: translateY(0);
         opacity: 1;
     }
-    70% {
-        transform: translateY(-100%);
+    50% {
         opacity: 1;
     }
     100% {
-        transform: translateY(-100%);
+        transform: translateY(-120%); /* Move further above */
         opacity: 0;
     }
 }
@@ -428,33 +515,17 @@ input::placeholder {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-100%);
+        transform: translateY(-120%); /* Move further up */
     }
 }
 
 @keyframes moveDownFromGate {
     0% {
-        transform: translateY(-100%);
+        transform: translateY(-120%); /* Start from further up */
     }
     100% {
         transform: translateY(0);
     }
-}
-
-/* Car at entrance style */
-.car-at-entrance {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--stack-theme);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    font-weight: bold;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
 }
 
 /* Responsive design */
@@ -462,7 +533,7 @@ input::placeholder {
     .panels {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .visualization-panel {
         grid-column: span 2;
         order: -1;
@@ -487,218 +558,51 @@ input::placeholder {
     .panels {
         grid-template-columns: 1fr;
     }
-    
+
     .visualization-panel {
         grid-column: span 1;
+    }
+    .garage-container {
+        margin-left: 0;
+    }
+    .stack-labels {
+        flex-direction: column;
+        align-items: flex-end;
+        top: 0;
+        left: -90px;
+        padding: 1rem 0;
     }
 }
 
 :root {
-    /* Spacing */
-    --spacing-xs: 0.5rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 1.5rem;
-    --spacing-lg: 2rem;
-    
-    /* Border Radius */
-    --radius-sm: 5px;
-    --radius-md: 8px;
-    --radius-lg: 10px;
-    
-    /* Transitions */
-    --transition-fast: 0.2s ease;
-    --transition-normal: 0.3s ease;
-    
-    /* Light theme variables */
-    --primary-color: #2c3e50;
-    --secondary-color: #e74c3c;
-    --success-color: #27ae60;
-    --warning-color: #f39c12;
-    --text-color: #2c3e50;
-    --bg-color: #ecf0f1;
-    --panel-bg: #ffffff;
-    --stack-theme: #3498db;
-    --stack-gradient: linear-gradient(135deg, var(--stack-theme), #2980b9);
-    --border-color: #e0e0e0;
-    --spot-bg: #f0f0f0;
-    --spot-border: #ccc;
-    --label-color: #666;
-    --progress-bg: #e0e0e0;
-    --hover-bg: #f1f3f5;
-    --legend-bg: #ffffff;
-}
+    /* Updated color scheme - more modern */
+    --primary-color: #333; /* Dark gray primary */
+    --secondary-color: #ff5e62; /* Brighter secondary red */
+    --success-color: #4cd137; /* Brighter success green */
+    --warning-color: #ffa801; /* Brighter warning orange */
+    --accent-color: #007bff; /* Modern blue accent */
 
-[data-theme="dark"] {
-    --primary-color: #ecf0f1;
-    --secondary-color: #ff6b6b;
-    --success-color: #2ecc71;
-    --warning-color: #f1c40f;
-    --text-color: #ecf0f1;
-    --bg-color: #1a1a1a;
-    --panel-bg: #2c2c2c;
-    --stack-theme: #3498db;
-    --stack-gradient: linear-gradient(135deg, #3498db, #2980b9);
-    --border-color: #404040;
-    --spot-bg: #242424;
-    --spot-border: #404040;
-    --label-color: #b3b3b3;
-    --progress-bg: #404040;
-    --hover-bg: #363636;
-    --legend-bg: #2c2c2c;
-}
+    --text-color: #343a40; /* Dark text color */
+    --bg-color: #f8f9fa; /* Very light gray background */
+    --panel-bg: #fff; /* White panel background */
+    --input-bg: #fff; /* Input background white */
+    --list-item-bg: #fff; /* List item white background */
+    --list-item-hover-bg: #f8f9fa; /* Slightly darker list hover */
+    --garage-bg: #f1f3f5; /* Light garage background */
+    --spot-empty-bg: #fff; /* Empty spot white */
+    --spot-occupied-bg: var(--accent-color); /* Occupied spot blue */
 
-/* Theme toggle button */
-.theme-toggle {
-    position: absolute;
-    top: var(--spacing-sm);
-    right: var(--spacing-sm);
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    transition: background-color var(--transition-normal);
-}
+    --spot-border: #ddd; /* Lighter spot border */
+    --label-color: #6c757d; /* Gray label color */
+    --placeholder-color: #adb5bd; /* Light placeholder */
+    --progress-bg: #e9ecef; /* Light progress background */
 
-.theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
+    --header-gradient: linear-gradient(135deg, #007bff, #0056b3); /* Blue gradient header */
 
-.theme-toggle i {
-    font-size: 1.1rem;
-}
-
-.car-item {
-    background: var(--stack-gradient);
-    color: white;
-    padding: 1rem;
-    border-radius: 5px;
-    position: relative;
-    margin-bottom: 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.car-item::before {
-    content: "↓";
-    position: absolute;
-    left: -20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--stack-theme);
-    font-weight: bold;
-}
-
-.car-item:first-child {
-    border: 2px solid var(--warning-color);
-    animation: pulse 2s infinite;
-}
-
-.car-item:first-child::after {
-    content: "TOP";
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: var(--warning-color);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.8em;
-}
-
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
-}
-
-/* Dark mode specific adjustments */
-[data-theme="dark"] .notice-message {
-    color: #b3b3b3;
-}
-
-[data-theme="dark"] .notice-message.success {
-    color: #4cd137;
-}
-
-[data-theme="dark"] .notice-message.error {
-    color: #ff6b6b;
-}
-
-[data-theme="dark"] .empty-message {
-    color: #b3b3b3;
-}
-
-[data-theme="dark"] input {
-    background: #242424;
-    border-color: #404040;
-}
-
-[data-theme="dark"] input:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
-
-[data-theme="dark"] .car-list-item {
-    border-color: #404040;
-    background: #242424;
-}
-
-[data-theme="dark"] .car-list-item:hover {
-    background: #363636;
-}
-
-[data-theme="dark"] .statistics {
-    background: #242424;
-}
-
-[data-theme="dark"] .notice-pane {
-    background: #242424;
-}
-
-/* Enhanced button styles for dark mode */
-[data-theme="dark"] .btn.success {
-    background: #2ecc71;
-}
-
-[data-theme="dark"] .btn.danger {
-    background: #ff6b6b;
-}
-
-[data-theme="dark"] .btn.primary {
-    background: #3498db;
-}
-
-[data-theme="dark"] .car-remove-btn {
-    background: #ff6b6b;
-}
-
-[data-theme="dark"] .car-remove-btn:hover {
-    background: #ff4757;
-}
-
-/* Improved shadows for dark mode */
-[data-theme="dark"] .operations-panel,
-[data-theme="dark"] .visualization-panel,
-[data-theme="dark"] .status-panel {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-[data-theme="dark"] .stack-labels span {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.explanation-pane {
-    margin-top: 1rem;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-.button-group + .explanation-pane {
-    border-top: 2px solid #ddd;
-}
+    /* Shadows - more subtle and modern */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.12);
+    --shadow-lg: 0 8px 16px rgba(0,0,0,0.16);
+    --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
+    --shadow-sm-inset: inset 0 1px 2px rgba(0,0,0,0.04);
+    --accent-shadow: rgba(0, 123, 255, 0.25); /* Accent color shadow for focus */
