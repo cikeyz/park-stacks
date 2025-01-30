@@ -363,7 +363,6 @@ class ParkingGarageUI {
         
         this.plateInput.value = '';
         this.isAnimating = false;
-        this.updateExplanationPane(`Car with plate number ${plateNumber} parked using LIFO (Last In, First Out) strategy.`);
     }
 
     async handleRemoveCar() {
@@ -419,12 +418,6 @@ class ParkingGarageUI {
         this.plateInput.value = '';
         this.updateUI();
         this.isAnimating = false;
-        this.updateExplanationPane(`Car with plate number ${plateNumber} removed using LIFO (Last In, First Out) strategy.`);
-    }
-
-    updateExplanationPane(message) {
-        const explanationText = document.getElementById('explanationText');
-        explanationText.textContent = message;
     }
 }
 
