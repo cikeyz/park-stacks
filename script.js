@@ -93,6 +93,12 @@ class ParkingGarageUI {
         this.initializeGarageVisualization();
         this.updateUI();
         this.isAnimating = false;
+
+        // Initialize gate state
+        const entrance = document.querySelector('.entrance-exit');
+        const gateState = entrance.querySelector('.gate-state');
+        gateState.textContent = 'CLOSED';
+        entrance.classList.remove('active');
     }
 
     initializeElements() {
@@ -124,8 +130,9 @@ class ParkingGarageUI {
         this.garageStack.innerHTML = '';
         for (let i = 0; i < this.garage.MAX_CAPACITY; i++) {
             const spot = document.createElement('div');
-            spot.className = 'parking-spot';
+            spot.className = 'parking-spot empty';
             spot.dataset.index = i;
+            // Remove the car placeholder, just show empty rectangle
             this.garageStack.appendChild(spot);
         }
     }
@@ -150,71 +157,176 @@ class ParkingGarageUI {
         return plate;
     }
 
+    async toggleGateBarriers(open = true) {
+        const entrance = document.querySelector('.entrance-exit');
+        const gateState = entrance.querySelector('.gate-state');
+        
+        if (open) {
+            entrance.classList.add('active');
+            gateState.textContent = 'OPEN';
+        } else {
+            entrance.classList.remove('active');
+            gateState.textContent = 'CLOSED';
+        }
+        
+        await new Promise(resolve => setTimeout(resolve, 800));
+    }
+
     async animateCarEntry(plateNumber, spotIndex) {
-        const spot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - spotIndex];
+        const targetSpot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - spotIndex];
+        const targetRect = targetSpot.getBoundingClientRect();
+        const garageStack = this.garageStack;
         
-        // Set up the spot with the plate number but keep it invisible
-        spot.classList.add('occupied');
-        spot.textContent = plateNumber;
-        spot.style.opacity = '0';
+        // Keep target spot empty and visible during animation
+        targetSpot.style.visibility = 'visible';
+        targetSpot.classList.add('empty');
+        targetSpot.textContent = '';
         
-        // Small delay to ensure styles are applied
-        await new Promise(resolve => setTimeout(resolve, 50));
+        // Create temporary car element at gate
+        const tempCar = document.createElement('div');
+        tempCar.style.opacity = '0';
+        tempCar.className = 'parking-spot moving absolute';  // Changed from 'occupied' to 'moving'
+        tempCar.textContent = plateNumber;
+        tempCar.style.top = '-25px';
         
-        // Make visible and start animation
-        spot.style.opacity = '1';
-        spot.classList.add('entering');
+        // Add to garage stack and set initial styles
+        garageStack.appendChild(tempCar);
+        tempCar.style.transformOrigin = 'center center';
+        tempCar.style.zIndex = '10';
+        
+        // Set the final position as a CSS variable
+        tempCar.style.setProperty('--target-position', `${targetRect.top - garageStack.getBoundingClientRect().top}px`);
+        
+        // Start animation
+        await new Promise(r => setTimeout(r, 50));
+        tempCar.style.opacity = '1';
+        tempCar.classList.add('entering');
         
         // Wait for animation to complete
-        return new Promise(resolve => {
-            spot.addEventListener('animationend', () => {
-                spot.classList.remove('entering');
+        await new Promise(resolve => {
+            tempCar.addEventListener('animationend', async () => {
+                // Only update the target spot after animation completes
+                targetSpot.classList.remove('empty');
+                targetSpot.classList.add('occupied');  // Change back to occupied when parked
+                targetSpot.textContent = plateNumber;
+                
+                // Remove temporary car
+                tempCar.remove();
                 resolve();
             }, { once: true });
         });
+
+        // Close gate barriers
+        await this.toggleGateBarriers(false);
     }
 
     async animateCarExit(spotIndex) {
         const spot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - spotIndex];
-        spot.classList.add('exiting');
+        const garageStack = this.garageStack;
+        const plateNumber = spot.textContent;
         
-        return new Promise(resolve => {
-            spot.addEventListener('animationend', () => {
-                spot.classList.remove('occupied', 'exiting');
-                spot.textContent = '';
+        // Open gate barriers
+        await this.toggleGateBarriers(true);
+        
+        // Create temporary car element at the spot's position
+        const tempCar = document.createElement('div');
+        tempCar.style.opacity = '0';
+        tempCar.className = 'parking-spot moving absolute';  // Changed from 'occupied' to 'moving'
+        tempCar.textContent = plateNumber;
+        const currentTop = spot.offsetTop - garageStack.offsetTop;
+        tempCar.style.top = `${currentTop}px`;
+        tempCar.style.setProperty('--current-position', `${currentTop}px`);
+        
+        // Add to garage stack and set initial styles
+        garageStack.appendChild(tempCar);
+        tempCar.style.transformOrigin = 'center center';
+        tempCar.style.zIndex = '10';
+        
+        // Reset original spot to empty state first
+        spot.classList.remove('occupied');
+        spot.classList.add('empty');
+        spot.textContent = '';
+        spot.style.visibility = 'visible';
+        
+        // Start animation
+        tempCar.style.opacity = '1';
+        tempCar.classList.add('exiting');
+        
+        await new Promise(resolve => {
+            tempCar.addEventListener('animationend', async () => {
+                tempCar.remove();
                 resolve();
             }, { once: true });
         });
+
+        // Close gate barriers
+        await this.toggleGateBarriers(false);
     }
 
     async animateCarMove(fromIndex, toIndex, isExiting = false) {
         const spot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - fromIndex];
         const plateNumber = spot.textContent;
+        const garageStack = this.garageStack;
         
-        // Move car up to gate
-        spot.classList.add('moving', 'moving-up');
+        // Open gate barriers
+        await this.toggleGateBarriers(true);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Pause after opening
+        
+        // Create temporary car element
+        const tempCar = document.createElement('div');
+        tempCar.style.opacity = '0';
+        tempCar.className = 'parking-spot moving absolute';  // Changed from 'occupied' to 'moving'
+        tempCar.textContent = plateNumber;
+        const currentTop = spot.offsetTop - garageStack.offsetTop;
+        tempCar.style.top = `${currentTop}px`;
+        tempCar.style.setProperty('--current-position', `${currentTop}px`);
+
+        // Reset original spot to empty state
+        spot.classList.remove('occupied');
+        spot.classList.add('empty');
+        spot.textContent = '';
+        spot.style.visibility = 'visible';
+        
+        // Add temporary car to garage
+        garageStack.appendChild(tempCar);
+        tempCar.style.transformOrigin = 'center center';
+        tempCar.style.zIndex = '10';
+        
+        // Start animation
+        tempCar.style.opacity = '1';
+        tempCar.classList.add('moving-up');
+        
         await new Promise(resolve => {
-            spot.addEventListener('animationend', () => {
+            tempCar.addEventListener('animationend', () => {
+                tempCar.classList.remove('moving-up');
                 resolve();
             }, { once: true });
         });
         
-        // Clear original spot
-        spot.classList.remove('occupied', 'moving', 'moving-up');
-        spot.textContent = '';
-        
         if (!isExiting) {
-            // Move to new position
             const newSpot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - toIndex];
-            newSpot.classList.add('occupied', 'moving', 'moving-down');
-            newSpot.textContent = plateNumber;
+            const targetTop = newSpot.offsetTop - garageStack.offsetTop;
+            tempCar.style.setProperty('--target-position', `${targetTop}px`);
             
+            // Close gate before moving back down
+            await this.toggleGateBarriers(false);
+            await new Promise(resolve => setTimeout(resolve, 500)); // Pause before moving down
+            
+            tempCar.classList.add('moving-down');
             await new Promise(resolve => {
-                newSpot.addEventListener('animationend', () => {
-                    newSpot.classList.remove('moving', 'moving-down');
+                tempCar.addEventListener('animationend', () => {
+                    // Update target spot
+                    newSpot.classList.remove('empty');
+                    newSpot.classList.add('occupied');
+                    newSpot.textContent = plateNumber;
+                    tempCar.remove();
                     resolve();
                 }, { once: true });
             });
+        } else {
+            tempCar.remove();
+            // Close gate after car exits
+            await this.toggleGateBarriers(false);
         }
     }
 
@@ -326,11 +438,13 @@ class ParkingGarageUI {
             const car = this.garage.parkingStack[i];
             
             if (car) {
+                spot.classList.remove('empty');
                 spot.classList.add('occupied');
                 spot.textContent = car;
             } else {
+                spot.classList.add('empty');
                 spot.classList.remove('occupied');
-                spot.textContent = '';
+                spot.textContent = ''; // Just clear the text, no placeholder needed
             }
         }
     }
@@ -348,11 +462,15 @@ class ParkingGarageUI {
         const result = this.garage.handleArrival(plateNumber);
         
         if (result.success) {
-            // First update the internal state
-            this.updateUI();
+            // Open gate before car arrives
+            await this.toggleGateBarriers(true);
+            await new Promise(resolve => setTimeout(resolve, 500)); // Pause before car enters
             
             // Then animate the car entry
             await this.animateCarEntry(plateNumber, this.garage.parkingStack.length - 1);
+            
+            // Only update UI after animation completes
+            this.updateUI();
             
             // Show success message after animation completes
             this.showNotice(result.message, !result.success);
@@ -383,6 +501,10 @@ class ParkingGarageUI {
             return;
         }
 
+        // Open gate before starting car movements
+        await this.toggleGateBarriers(true);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Pause before movements start
+
         // Store cars that need to be moved
         const carsToMove = this.garage.parkingStack.slice(targetIndex + 1);
         const originalPositions = carsToMove.map((_, i) => targetIndex + 1 + i);
@@ -400,16 +522,7 @@ class ParkingGarageUI {
         // Move cars back down through gate
         for (let i = 0; i < carsToMove.length; i++) {
             const newPosition = originalPositions[i] - 1;
-            const spot = this.garageStack.children[this.garage.MAX_CAPACITY - 1 - newPosition];
-            spot.classList.add('occupied', 'entering');
-            spot.textContent = carsToMove[i];
-            
-            await new Promise(resolve => {
-                spot.addEventListener('animationend', () => {
-                    spot.classList.remove('entering');
-                    resolve();
-                }, { once: true });
-            });
+            await this.animateCarEntry(carsToMove[i], newPosition);
             await new Promise(resolve => setTimeout(resolve, 300)); // Pause between cars
         }
 
