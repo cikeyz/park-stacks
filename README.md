@@ -7,13 +7,13 @@
 
 <p align="center">
   <a href="https://case-study-2-dsa-g3.vercel.app/">Live Demo</a>
-  &nbsp;·&nbsp;
+  &nbsp;&middot;&nbsp;
   <a href="https://cikeyz.github.io/park-stacks/">GitHub Pages</a>
-  &nbsp;·&nbsp;
+  &nbsp;&middot;&nbsp;
   <a href="#quick-start">Quick Start</a>
-  &nbsp;·&nbsp;
+  &nbsp;&middot;&nbsp;
   <a href="#project-structure">Structure</a>
-  &nbsp;·&nbsp;
+  &nbsp;&middot;&nbsp;
   <a href="#license">License</a>
 </p>
 
@@ -52,17 +52,17 @@ and departure activity with light/dark theming.
 
 ## Quick Start
 
-`ash
+```bash
 git clone https://github.com/cikeyz/park-stacks.git
 cd park-stacks
 python -m http.server 8000
-`
+```
 
 Open http://127.0.0.1:8000/
 
 ## Project Structure
 
-`	ext
+```text
 park-stacks/
 ├── index.html
 ├── script.js
@@ -70,7 +70,7 @@ park-stacks/
 ├── LICENSE
 ├── README.md
 └── .gitignore
-`
+```
 
 ## Other design eras
 
